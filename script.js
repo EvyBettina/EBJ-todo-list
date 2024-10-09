@@ -1,6 +1,21 @@
 let userInput = document.querySelector("#user-input");
 let todoListElement = document.querySelector("#todo-list");
 
+// Originalen
+let toStore = [1, 2, 3, 4];
+
+// Oversett og lagre i LocalStorage
+let jsonToStore = JSON.stringify(toStore);
+localStorage.setItem("todos", jsonToStore);
+
+// Hent ug og oversett tilbake til JavaScript
+let storedItem = localStorage.getItem("todos");
+let converted = JSON.parse(storedItem);
+
+// Logg ut originalen og det vi har hentet ut fra LocalStorage
+console.log(toStore);
+console.log(converted);
+
 let todos = []
 
 // Dette er det som skal skje når brukeren trykker på 
