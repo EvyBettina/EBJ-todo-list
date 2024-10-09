@@ -1,7 +1,4 @@
-let userInput = document.querySelector("#user-input");
-let todoListElement = document.querySelector("#todo-list");
-
-// Originalen
+/* // Originalen
 let toStore = [1, 2, 3, 4];
 
 // Oversett og lagre i LocalStorage
@@ -14,9 +11,24 @@ let converted = JSON.parse(storedItem);
 
 // Logg ut originalen og det vi har hentet ut fra LocalStorage
 console.log(toStore);
-console.log(converted);
+console.log(converted); */
 
-let todos = []
+let userInput = document.querySelector("#user-input");
+let todoListElement = document.querySelector("#todo-list");
+
+let storedTodos = localStorage.getItem("todos");
+let convertedTodos = JSON.parse(storedTodos);
+
+let todos;
+if (storedTodos === null) {
+  // Hvis det er første besøk på siden, lag en ny liste
+todos = [];
+} else {
+  // Hvis det var noe lagret i LocalStorage, bruk det
+  todos = convertedTodos;
+}
+
+renderTodos ();
 
 // Dette er det som skal skje når brukeren trykker på 
 // Legg til knappen
@@ -29,8 +41,14 @@ let newTodo = createTodoObject(userInput);
 console.log(todos);
 todos.push(newTodo);
 
-console.log("Clearing out the old todos from the document...")
+console.log("Updating the stored list...");
+let jsonTodos = JSON.stringify(todos)
+localStorage.setItem("todos", jsonTodos);
+console.log(jsonTodos);
+
+console.log("Clearing out the old todos from the document...");
 todoListElement.innerHTML = "";
+
 
 console.log("Appending all todos to the Document...");
 todos.forEach((todo, index) => {
