@@ -1,18 +1,3 @@
-/* // Originalen
-let toStore = [1, 2, 3, 4];
-
-// Oversett og lagre i LocalStorage
-let jsonToStore = JSON.stringify(toStore);
-localStorage.setItem("todos", jsonToStore);
-
-// Hent ug og oversett tilbake til JavaScript
-let storedItem = localStorage.getItem("todos");
-let converted = JSON.parse(storedItem);
-
-// Logg ut originalen og det vi har hentet ut fra LocalStorage
-console.log(toStore);
-console.log(converted); */
-
 let userInput = document.querySelector("#user-input");
 let todoListElement = document.querySelector("#todo-list");
 
@@ -21,14 +6,12 @@ userInput.addEventListener("submit", handleSubmit);
 let storedTodos = localStorage.getItem("todos");
 let convertedTodos = JSON.parse(storedTodos);
 
-localStorage.removeItem("todos");
-
 let todos;
 if (storedTodos === null) {
-  // Hvis det er første besøk på siden, lag en ny liste
+  // Viss det er første besøk på siden, lag en ny liste
   todos = [];
 } else {
-  // Hvis det var noe lagret i LocalStorage, bruk det
+  // Viss det var noe lagret i LocalStorage, bruk det
   todos = convertedTodos;
 }
 
@@ -42,30 +25,17 @@ function handleSubmit(event) {
   console.log("Creating Todo Object...");
   let newTodo = createTodoObject(userInput);
 
-  console.log(todos);
+  console.log("Append new todo to todo list...");
   todos.push(newTodo);
 
   console.log("Updating the stored list...");
   let jsonTodos = JSON.stringify(todos);
   localStorage.setItem("todos", jsonTodos);
-  console.log(jsonTodos);
 
-  console.log("Clearing out the old todos from the document...");
-  todoListElement.innerHTML = "";
-
-  console.log("Appending all todos to the Document...");
-  todos.forEach((todo, index) => {
-    console.log(todo);
-    console.log(index);
-    // Først lage det HTML for det gjøremålet
-    let newTodoCard = createTodoCard(todo);
-
-    // Legg det nye html element til i Dokumentet
-    todoListElement.append(newTodoCard);
-  });
+  renderTodos();
 }
 
-// Denne leser av daten i et form element
+// Denne leser av dataen i et form element
 // og lager et JavaScript objekt for Gjøremålene
 function createTodoObject(form) {
   let todo = form.querySelector("#todo");
@@ -82,23 +52,47 @@ function createTodoCard(todoObject) {
   // Lage alle elementene vi trenger
   let todoCard = document.createElement("li");
   let titleElement = document.createElement("h2");
-  let deletebutton = document.createElement("button");
+  let deleteButton = document.createElement("button");
 
   // Sett de sammen til ett element
   todoCard.append(titleElement);
   todoCard.append(deleteButton);
 
-  // Konfigurere elementene med korrekte verdier
+  // Konfigure elementene med korrekt verdier
   titleElement.textContent = todoObject.title;
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", () => {
+    console.log("Deleting todo...");
+
+    // Fjern "todoObject" fra "todos" listen
+    let filteredTodos = todos.filter((todo) => {
+      if (todo.title === todoObject.title) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+
+    console.log(filteredTodos);
+
+    todos = filteredTodos;
+
+    let jsonTodos = JSON.stringify(todos);
+    localStorage.setItem("todos", jsonTodos);
+
+    renderTodos();
+  });
 
   return todoCard;
 }
+
 // Denne er ansvarlig for å oppdatere HTML
 function renderTodos() {
+  console.log("Clearing out the old todos from the document...");
+  todoListElement.innerHTML = "";
+
   console.log("Appending all todos to the Document...");
   todos.forEach((todo, index) => {
-    console.log(todo);
-    console.log(index);
     // Først lage det HTML for det gjøremålet
     let newTodoCard = createTodoCard(todo);
 
