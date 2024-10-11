@@ -4,25 +4,26 @@
     <title>Home</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles.css" />
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="script.js"></script>
   </head>
   <body>
     <header>
-      <h1>Gjøremåls Liste</h1>
+      <h1 class="text-center underline text-4xl text-orange-500">Gjøremåls Liste</h1>
     </header>
 
     <main>
       <!-- Her er input HTML -->
-      <form id="user-input">
+      <form class="flex flex-col items-center bg-purple-100 p-4 w-2/3 text-xl" id="user-input">
         <label for="todo">Gjøremål</label>
-        <input type="text" name="todo" id="todo" />
+        <input class="bg-purple-400 rounded-full" type="text" name="todo" id="todo" />
 
         <button type="submit">Legg Til</button>
       </form>
 
       <!-- Gjøremåls listen -->
-      <ul id="todo-list"></ul>
+      <ul class="flex flex-col gap-4 items-center bg-slate-200 p-4 m-4 rounded shadow-xl" id="todo-list"></ul>
     </main>
   </body>
 </html>
